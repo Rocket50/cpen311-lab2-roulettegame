@@ -27,7 +27,11 @@ architecture impl of spinwheel is
     spin_result <= counter;
     process(all) begin
       if(rising_edge(clk)) then
-       counter <= std_logic_vector(unsigned(counter) + 1);
+        if(unsigned(counter) > 36) then
+          counter <= (others => '0');
+        else
+          counter <= std_logic_vector(unsigned(counter) + 1);
+        end if;
       end if;
     end process;
 end impl; 
