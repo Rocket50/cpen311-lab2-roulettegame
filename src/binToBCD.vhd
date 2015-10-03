@@ -17,7 +17,7 @@ architecture impl of doubleDabble is
       variable binTemp : unsigned(inBits-1 downto 0); 
     begin
       binTemp := unsigned(bin);
-      for I in 1 to inBits loop
+      for I in 0 to inBits loop
         bcdTemp := bcdTemp sll 1;
         bcdTemp(0) := binTemp(inBits-1);
         binTemp := binTemp sll 1;

@@ -16,7 +16,21 @@ architecture impl of doubleDabble is
       variable bcdTemp : unsigned(outBits-1 downto 0) := (others => '0'); 
       variable binTemp : unsigned(inBits-1 downto 0); 
     begin
-      binTemp := unsigned(bin)
+      binTemp := unsigned(bin);
+      for I in 0 to inBits loop
+        bcdTemp := bcdTemp sll 1;
+        bcdTemp(0) := binTemp(inBits-1);
+        binTemp := binTemp sll 1;
+        
+        if(binTemp(3 downto 0) > 4) then
+          bcdTemp := bcdTemp + 3;
+          bcdTemp := bcdTemp sll 1;
+        end if; 
+        
+        
+      end loop;
+        
+        bcd <= std_logic_vector(bcdTemp); := unsigned(bin);
       for I in 1 to inBits loop
         bcdTemp := bcdTemp sll 1;
         bcdTemp(0) := binTemp(inBits-1);
