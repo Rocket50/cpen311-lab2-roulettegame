@@ -1,8 +1,8 @@
 library ieee;
 use ieee.std_logic_1164.all;
 
-package NbitRegDecs is
-  component NbitReg is
+package NbitReg is
+  component NbitRegdDecs is
     generic(n : integer := 1);
     port(D : in std_logic_vector(n-1 downto 0);
          Q : out std_logic_vector(n-1 downto 0); 
