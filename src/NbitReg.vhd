@@ -13,6 +13,7 @@ end package;
 
 library ieee; 
 use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
 
 entity NbitReg is
   generic(n : integer := 1);
@@ -25,6 +26,13 @@ end entity;
 architecture impl of NbitReg is
   begin
     process(all) begin
+      if(rst = '0') then
+        if(rising_edge(clk)) then
+          Q <= D;
+        end if;
+      else
+        Q <= std_logic_vector(to_unsigned(0, n));
+      end if;
     end process;
 end impl; 
 
