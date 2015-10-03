@@ -31,7 +31,7 @@ entity newBalance is
          bet2_amt : in unsigned(2 downto 0);
          bet3_amt : in unsigned(2 downto 0);
          
-         new_money : out std_logic_vector(11 downto 0));
+         new_money : out unsigned(11 downto 0));
 end entity;
 
 architecture impl of newBalance is
@@ -66,6 +66,8 @@ architecture impl of newBalance is
       else
         tempNewBalance := tempNewBalance - bet3_amt * BET3_RETURN;
       end if;
+      
+      new_money <= tempNewBalance;
       
     end process;
 end impl; 
