@@ -38,7 +38,7 @@ architecture impl of BCDto7seg is
       
       for I in 0 to n-1 loop
         hex(I*7+6 downto I*7) <= LUT(to_integer(unsigned(bcd(I*4+3 downto I*4))));
-        report(to_string(bcd(I*4+3 downto I*4)) & " is : " & to_string(LUT(to_integer(unsigned(bcd(I*4+3 downto I*4))))));
+        --report(to_string(bcd(I*4+3 downto I*4)) & " is : " & to_string(LUT(to_integer(unsigned(bcd(I*4+3 downto I*4))))));
       end loop;
       
     end process;
