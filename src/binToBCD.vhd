@@ -7,7 +7,7 @@ package binToBCDDecs is
     generic(outDigits : integer := 1;
           inBits : integer);
     port(bin : in std_logic_vector(inBits-1 downto 0);
-         bcd : out std_logic_vector(outDigits*4 downto 0));
+         bcd : out std_logic_vector(outDigits*4-1 downto 0));
   end component;
 end package;
 

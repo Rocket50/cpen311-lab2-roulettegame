@@ -2,7 +2,7 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
-package binToBCDdec is
+package binToBCDDecs is
   component binToBCD is
     generic(outDigits : integer := 1;
           inBits : integer);

@@ -28,10 +28,10 @@ architecture impl of BCDto7seg is
   type bcdLUT is array (0 to 9) of std_logic_vector(6 downto 0);
   
   constant LUT : bcdLUT := 
-    ("1111110", 
-     "0110000", "1101101", "1111001",
-     "0110011", "0110011", "1011111",
-     "1110000", "1111111", "1111011");
+    (not "0111111",
+     not "0000110", not "1011011", not "1001111",
+     not "1100110", not "1101101", not "1111101",
+     not "0000111", not "1111111", not "1101111");
   
   begin
     

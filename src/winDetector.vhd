@@ -28,7 +28,7 @@ entity win is
          bet3_wins : out std_logic);
 end entity; 
 
-architecture impl of winDetector is
+architecture impl of win is
   begin
     --Straightup bet subblock
     process(all) begin
@@ -80,7 +80,7 @@ architecture impl of winDetector is
     
     --dozen bet subblock
     process(all) begin 
-      report("Bet 3 dozen : " & to_String(bet3_dozen));
+     -- report("Bet 3 dozen : " & to_String(bet3_dozen));
       if(bet3_dozen = "00" and spin_result >= 6d"1" and spin_result <= 6d"12") then
         bet3_wins <= '1'; 
       elsif(bet3_dozen = "01" and (spin_result >= 6d"13" and spin_result <= 6d"24")) then

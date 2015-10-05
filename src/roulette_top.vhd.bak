@@ -91,7 +91,7 @@ begin
   
   bet3_amount <= unsigned(bet3_amt);
   
-  StateFFmoney : NbitReg generic map (12, 32.) --previous money
+  StateFFmoney : NbitReg generic map (12, 32) --previous money
                   port map(rst => rst, clk => slow_clock, D => std_logic_vector(new_money), Q => money);
   
 --  toMoneyFF <= unsigned(money);

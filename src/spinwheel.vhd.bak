@@ -1,7 +1,7 @@
 library ieee;
 use ieee.std_logic_1164.all;
 
-package spinwheelDec is
+package spinwheelDecs is
   component spinwheel is
     port(clk : in std_logic;
          rst : in std_logic;
@@ -27,7 +27,7 @@ architecture impl of spinwheel is
     spin_result <= counter;
     process(all) begin
       if(rising_edge(clk)) then
-        if(unsigned(counter) > 36) then
+        if(unsigned(counter) >= 37) then
           counter <= (others => '0');
         else
           counter <= std_logic_vector(unsigned(counter) + 1);
