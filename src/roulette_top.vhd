@@ -1,6 +1,12 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use work.NbitRegDecs.all;
+use work.newBalanceDecs.all;
+use work.spinwheelDecs.all;
+use work.winDetectorDecs.all;
+use work.binToBCDDecs.all;
+use work.BCDto7segDecs.all;
+
 use ieee.numeric_std.all; 
 
 entity roulette_top is
@@ -12,51 +18,12 @@ entity roulette_top is
 end roulette_top;
 
 architecture impl of roulette_top is
-  
-  --components
-  component spinwheel is
-    port(clk : in std_logic;
-         rst : in std_logic;
-         spin_result : out std_logic_vector(5 downto 0));
-  end component;
-  
-  component NbitReg is
-    generic(n : integer := 1);
-    port(D : in std_logic_vector(n-1 downto 0);
-         Q : out std_logic_vector(n-1 downto 0); 
-         clk: in std_logic;
-         rst: in std_logic);
-  end component;
-  
-  component newBalance is
-    port(money : in unsigned(11 downto 0);
-         bet1_wins : in std_logic;
-         bet2_wins : in std_logic;
-         bet3_wins : in std_logic;
-         
-         bet1_amt : in unsigned(2 downto 0);
-         bet2_amt : in unsigned(2 downto 0);
-         bet3_amt : in unsigned(2 downto 0);
-         
-         new_money : out std_logic_vector(11 downto 0));
-  end component;
-  
-  component winDetector is
-    port(spin_result : in std_logic_vector(5 downto 0);
-         bet1_value : in std_logic_vector(5 downto 0);
-         bet2_colour: in std_logic;
-         bet3_dozen: in std_logic_vector(1 downto 0);
-         bet1_wins : out std_logic;
-         bet2_wins : out std_logic;
-         bet3_wins : out std_logic);
-  end component; 
-  
   --wires
   signal spin_result : std_logic_vector(5 downto 0) := "000000";
   signal spin_result_latched : std_logic_vector(5 downto 0) := "000000";
   
   signal money : std_logic_vector(11 downto 0) := "000000000000";
-  signal new_money : std_logic_vector(11 downto 0) := "000000000000";
+  signal new_money : unsigned(11 downto 0) := "000000000000";
   signal toMoneyFF : unsigned(11 downto 0) := "000000000000";
   
   signal bet1_value : std_logic_vector(5 downto 0) := "000000";
@@ -68,6 +35,12 @@ architecture impl of roulette_top is
   
   signal bet1_amt, bet2_amt, bet3_amt : std_logic_vector(2 downto 0) := "000";
   signal bet1_amount, bet2_amount, bet3_amount : unsigned(2 downto 0) := "000";
+  
+  signal currMoneyBCD : std_logic_vector(11 downto 0);
+  signal currMoneyHex : std_logic_vector(20 downto 0); 
+  
+  signal spinResultBCD : std_logic_vector(7 downto 0);
+  signal spinResultHex : std_logic_vector(13 downto 0);
 
 begin
   
@@ -78,8 +51,8 @@ begin
             bet1_wins => bet1_wins, bet2_wins => bet2_wins, bet3_wins => bet3_wins,
             bet1_amt => bet1_amount, bet2_amt => bet2_amount, bet3_amt => bet3_amount);
   
-  win : winDetector port map(spin_result => spin_result,
-                 bet1_value => bet1_value, bet2_colour => bet2_colour_bit, bet3_dozen => bet3_dozen,
+  winDetector : win port map(spin_result => unsigned(spin_result),
+                 bet1_value => unsigned(bet1_value), bet2_colour => bet2_colour_bit, bet3_dozen => unsigned(bet3_dozen),
                  bet1_wins => bet1_wins, bet2_wins => bet2_wins, bet3_wins => bet3_wins);
   
   --flip flops and conversions
@@ -112,13 +85,40 @@ begin
   bet3_amount <= unsigned(bet3_amt);
   
   StateFFmoney : NbitReg generic map (6) --previous money
-                  port map(rst => KEY(1), clk => KEY(3), D => new_money, Q => money);
+                  port map(rst => KEY(1), clk => KEY(3), D => std_logic_vector(new_money), Q => money);
   
   toMoneyFF <= unsigned(money);
+  
+  currMoneyBinToBCD : binToBCD generic map(outDigits => 3, inBits => new_money'LENGTH)
+                                  port map(bin => std_logic_vector(new_money), bcd => currMoneyBCD);
+                                    
+  
+  currMoneyBCDTo7Seg :  BCDto7seg generic map(n => 3)
+                                        port map(bcd => currMoneyBCD, hex => currMoneyHex); 
+  
+  spinResultBinToBCD : binToBCD generic map(outDigits => 2, inBits => 6)
+                                    port map(bin => std_logic_vector(spin_result), bcd => currMoneyBCD);
+
+  spinResultsBCDToHex : BCDto7seg generic map(n => 2)
+                                    port map(bcd => currMoneyBCD, hex => spinResultHex);
+                                      
+                                                                     
+  HEX0 <= currMoneyHex(6 downto 0);
+  HEX1 <= currMoneyHex(13 downto 7);
+  HEX2 <= currMoneyHex(20 downto 14);
+
+  HEX6 <= spinResultHex(6 downto 0);
+  HEX7 <= spinResultHex(13 downto 7);
+  
+  
   
   LEDG(0) <= bet1_wins;
   LEDG(1) <= bet2_wins;
   LEDG(2) <= bet3_wins;
+  
+  
+  
+  
   
   
   
