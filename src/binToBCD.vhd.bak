@@ -34,32 +34,33 @@ architecture impl of binToBCD is
       binTemp := unsigned(bin);
       bcdTemp := (others => '0');
       
-      report("binTemp is initially : " & to_string(binTemp));
-      report("bcdTemp is initially : " & to_string(bcdTemp));
+      --report("binTemp is initially : " & to_string(binTemp));
+      --report("bcdTemp is initially : " & to_string(bcdTemp));
       for I in 0 to inBits-1 loop
         
         
         
         for J in 0 to outDigits-1 loop
           
-          report("Checking slice: " & to_string(J*4+3) & "downto" & to_string(J*4));
+          --report("Checking slice: " & to_string(J*4+3) & "downto" & to_string(J*4));
           
           if bcdTemp(J*4+3 downto J*4) > 4 then
             bcdTemp(J*4+3 downto J*4) := bcdTemp(J*4+3 downto J*4) + 3;
             
-            report("ADDING 3");
+            --report("ADDING 3");
             
             
           end if;
         end loop; 
+        
         bcdTemp := bcdTemp sll 1;
         bcdTemp(0) := binTemp(inBits-1);
         
         binTemp := binTemp sll 1;
 
-        report("Shift number : " & to_string(I));
-        report("binTemp is now : " & to_string(binTemp));
-        report("bcdTemp is now : " & to_string(bcdTemp));
+        --report("Shift number : " & to_string(I));
+        --report("binTemp is now : " & to_string(binTemp));
+        --report("bcdTemp is now : " & to_string(bcdTemp));
         
       end loop;
         

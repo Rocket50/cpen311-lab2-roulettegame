@@ -1,8 +1,9 @@
+
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
-package BCDto7segDec is
+package BCDto7segDecs is
   component BCDto7seg is
     generic(n : integer := 1);
     port(bcd : in std_logic_vector(n*4-1 downto 0);
