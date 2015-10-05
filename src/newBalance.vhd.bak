@@ -49,11 +49,11 @@ architecture impl of newBalance is
       tempNewBalance := money;
       
       if(bet1_wins = '1') then
-        report("Bet 1 has won, original bet : " & to_string(to_integer(bet1_amt)));
-        report("Bet 1 has won, original money : " & to_string(to_integer(tempNewBalance)));
+        --report("Bet 1 has won, original bet : " & to_string(to_integer(bet1_amt)));
+        --report("Bet 1 has won, original money : " & to_string(to_integer(tempNewBalance)));
      
         tempNewBalance := tempNewBalance + to_unsigned(to_integer(bet1_amt) * BET1_RETURN, tempNewBalance'LENGTH);
-        report("new balance : " & to_string(to_integer(tempNewBalance)));
+        --report("new balance : " & to_string(to_integer(tempNewBalance)));
       else
         tempNewBalance := tempNewBalance - bet1_amt;
       end if;

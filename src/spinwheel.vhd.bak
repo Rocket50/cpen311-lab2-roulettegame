@@ -31,6 +31,7 @@ architecture impl of spinwheel is
           counter <= (others => '0');
         else
           counter <= std_logic_vector(unsigned(counter) + 1);
+        end if;
       end if;
     end process;
 end impl; 

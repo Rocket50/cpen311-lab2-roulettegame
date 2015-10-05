@@ -2,7 +2,7 @@ library ieee;
 use ieee.std_logic_1164.all; 
 use ieee.numeric_std.all;
 
-package newBalanceDec is
+package newBalanceDecs is
   component newBalance is
     port(money : in unsigned(11 downto 0);
          bet1_wins : in std_logic;

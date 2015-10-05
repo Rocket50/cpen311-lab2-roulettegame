@@ -2,8 +2,8 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
-package winDetectorDec is
-  component win is
+package winDetectorDecs is
+  component winDetector is
     port(spin_result : in unsigned(5 downto 0);
          bet1_value : in unsigned(5 downto 0);
          bet2_colour: in std_logic;
@@ -18,7 +18,7 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
-entity win is
+entity winDetector is
   port(spin_result : in unsigned(5 downto 0);
          bet1_value : in unsigned(5 downto 0);
          bet2_colour: in std_logic;
@@ -28,7 +28,7 @@ entity win is
          bet3_wins : out std_logic);
 end entity; 
 
-architecture impl of win is
+architecture impl of winDetector is
   begin
     --Straightup bet subblock
     process(all) begin
@@ -89,8 +89,6 @@ architecture impl of win is
         bet3_wins <= '1'; 
       else
         bet3_wins <= '0';
-        
-        report("bet3_wins = " & to_string(bet3_wins));
         
       end if;
     end process; 
